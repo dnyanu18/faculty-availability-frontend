@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+/*import React, { useEffect, useState } from "react";
 import API from "../services/api";
 
 const MeetingRequestsList = () => {
@@ -23,6 +23,38 @@ const MeetingRequestsList = () => {
           </li>
         ))}
       </ul>
+    </div>
+  );
+};
+
+export default MeetingRequestsList;
+*/
+import React, { useEffect, useState } from "react";
+import API from "../services/api";
+import MeetingRequestItem from "./MeetingRequestItem";
+
+const MeetingRequestsList = () => {
+  const [requests, setRequests] = useState([]);
+
+  const loadRequests = async () => {
+    const res = await API.get("/meeting/teacher");
+    setRequests(res.data);
+  };
+
+  useEffect(() => {
+    loadRequests();
+  }, []);
+
+  return (
+    <div>
+      <h5>Meeting Requests</h5>
+      {requests.length === 0 ? (
+        <p>No meeting requests.</p>
+      ) : (
+        requests.map((r) => (
+          <MeetingRequestItem key={r._id} request={r} onAction={loadRequests} />
+        ))
+      )}
     </div>
   );
 };

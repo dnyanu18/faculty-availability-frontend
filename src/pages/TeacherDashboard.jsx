@@ -28,7 +28,7 @@ const TeacherDashboard = () => {
 };
 
 export default TeacherDashboard;
-*/
+
 import { useState } from "react";
 import API from "../services/api";
 import MeetingRequestsList from "../components/MeetingRequestsList";
@@ -73,3 +73,47 @@ const TeacherDashboard = () => {
 
 export default TeacherDashboard;
 
+*/
+import { useState } from "react";
+import API from "../services/api";
+import MeetingRequestsList from "../components/MeetingRequestsList";
+
+const TeacherDashboard = () => {
+  const [availability, setAvailability] = useState("available");
+
+  const updateStatus = async () => {
+    await API.post("/status/update", { availability });
+    alert("Your status has been updated!");
+  };
+
+  return (
+    <div className="container py-4">
+      <h2 className="text-center mb-4">🧑‍🏫 Teacher Dashboard</h2>
+
+      <div className="card shadow-sm p-4 mb-4">
+        <h5 className="mb-3">🔄 Update Your Availability</h5>
+        <div className="row g-3">
+          <div className="col-12 col-md-6">
+            <select
+              className="form-select"
+              value={availability}
+              onChange={(e) => setAvailability(e.target.value)}
+            >
+              <option value="available">✅ Available</option>
+              <option value="busy">⛔ Busy</option>
+            </select>
+          </div>
+          <div className="col-12 col-md-6">
+            <button className="btn btn-success w-100" onClick={updateStatus}>
+              Update Status
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <MeetingRequestsList />
+    </div>
+  );
+};
+
+export default TeacherDashboard;
